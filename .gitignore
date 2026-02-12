@@ -39,3 +39,20 @@
 
 # debug information files
 *.dwo
+
+# Build folders
+/build/
+/x64/
+/Debug/
+/Release/
+
+# Visual Studio
+.vs/
+*.vcxproj.user
+
+# SFML binaries
+SFML/
+*.lib
+*.dll
+*.pdb
+*.a
