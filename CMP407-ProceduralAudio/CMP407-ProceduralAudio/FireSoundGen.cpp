@@ -8,7 +8,7 @@ static constexpr float PI = 3.14159265359f;
 
 FireSoundGen::FireSoundGen() : m_rng(std::random_device{}()), m_dist(-1.0f, 1.0f)
 {
-	initialize(m_channelCount, m_sampleRate, sf::SoundChannel::Stereo);
+	initialize(m_channelCount, m_sampleRate, {sf::SoundChannel::SideLeft, sf::SoundChannel::SideRight});
 }
 
 void FireSoundGen::setIntensity(float value)
@@ -33,9 +33,9 @@ void FireSoundGen::setFlickerSpeed(float value)
 
 bool FireSoundGen::onGetData(Chunk& data)
 {
-    /*m_samples.resize(ChunkSize * ChannelCount);
+    m_samples.resize(m_chunkSize * m_channelCount);
 
-    for (unsigned int i = 0; i < ChunkSize; ++i)
+    for (unsigned int i = 0; i < m_chunkSize; ++i)
     {
         float sample = generateSample();
         std::int16_t s = static_cast<std::int16_t>(sample * 30000);
@@ -47,60 +47,60 @@ bool FireSoundGen::onGetData(Chunk& data)
     data.samples = m_samples.data();
     data.sampleCount = m_samples.size();
 
-    return true;*/
+    return true;
 }
 
 void FireSoundGen::onSeek(sf::Time timeOffset)
 {
-    /*m_time = timeOffset.asSeconds();*/
+    m_time = timeOffset.asSeconds();
 }
 
 float FireSoundGen::generateSample()
 {
-    //float dt = 1.0f / SampleRate;
-    //m_time += dt;
+    float dt = 1.0f / m_sampleRate;
+    m_time += dt;
 
-    //// Flicker modulation
-    //float lfo = 0.6f + 0.4f * std::sin(2.0f * PI * m_flickerSpeed * m_time);
+    // Flicker modulation
+    float lfo = 0.6f + 0.4f * std::sin(2.0f * PI * m_flickerSpeed * m_time);
 
-    //// Base noise
-    //float noiseL = whiteNoise();
-    //float noiseR = whiteNoise();
+    // Base noise
+    float noiseL = whiteNoise();
+    float noiseR = whiteNoise();
 
-    //// Simple low-pass filter
-    //float cutoff = 200.0f + m_brightness * 4000.0f;
-    //float alpha = cutoff / (cutoff + SampleRate);
+    // Simple low-pass filter
+    float cutoff = 200.0f + m_brightness * 4000.0f;
+    float alpha = cutoff / (cutoff + m_sampleRate);
 
-    //float filteredL = m_prevFilteredL + alpha * (noiseL - m_prevFilteredL);
-    //float filteredR = m_prevFilteredR + alpha * (noiseR - m_prevFilteredR);
+    float filteredL = m_prevFilteredL + alpha * (noiseL - m_prevFilteredL);
+    float filteredR = m_prevFilteredR + alpha * (noiseR - m_prevFilteredR);
 
-    //m_prevFilteredL = filteredL;
-    //m_prevFilteredR = filteredR;
+    m_prevFilteredL = filteredL;
+    m_prevFilteredR = filteredR;
 
-    //float baseL = filteredL * lfo * m_intensity;
-    //float baseR = filteredR * lfo * m_intensity;
+    float baseL = filteredL * lfo * m_intensity;
+    float baseR = filteredR * lfo * m_intensity;
 
-    //// Random crackle triggering
-    //float triggerChance = m_crackleRate / SampleRate;
-    //if (((whiteNoise() + 1.f) * 0.5f) < triggerChance)
-    //    triggerCrackle();
+    // Random crackle triggering
+    float triggerChance = m_crackleRate / m_sampleRate;
+    if (((whiteNoise() + 1.f) * 0.5f) < triggerChance)
+        triggerCrackle();
 
-    //float crackleSum = 0.0f;
+    float crackleSum = 0.0f;
 
-    //for (auto& c : m_crackles)
-    //{
-    //    if (c.active)
-    //    {
-    //        crackleSum += c.value * whiteNoise();
-    //        c.value *= c.decay;
+    for (auto& c : m_crackles)
+    {
+        if (c.active)
+        {
+            crackleSum += c.value * whiteNoise();
+            c.value *= c.decay;
 
-    //        if (std::abs(c.value) < 0.001f)
-    //            c.active = false;
-    //    }
-    //}
+            if (std::abs(c.value) < 0.001f)
+                c.active = false;
+        }
+    }
 
-    //float finalSample = baseL + baseR + crackleSum;
-    //return std::clamp(finalSample, -1.0f, 1.0f);
+    float finalSample = baseL + baseR + crackleSum;
+    return std::clamp(finalSample, -1.0f, 1.0f);
 }
 
 float FireSoundGen::whiteNoise()
@@ -110,7 +110,7 @@ float FireSoundGen::whiteNoise()
 
 void FireSoundGen::triggerCrackle()
 {
-	/*for (auto& c : m_crackles)
+	for (auto& c : m_crackles)
 	{
 		if (!c.active)
 		{
@@ -119,5 +119,5 @@ void FireSoundGen::triggerCrackle()
 			c.decay = 0.90f + 0.05f * ((whiteNoise() + 1.f) * 0.5f);
 			break;
 		}
-	}*/
+	}
 }
