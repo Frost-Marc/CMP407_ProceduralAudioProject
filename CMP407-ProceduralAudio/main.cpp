@@ -4,6 +4,7 @@
 #include <SFML/System.hpp>
 #include "SFML/Graphics.hpp"
 #include <iostream>
+#include "FireAudio.h"
 
 int main()
 {
@@ -11,10 +12,13 @@ int main()
 	window.setFramerateLimit(144);
 	ImGui::SFML::Init(window);
 
-	sf::CircleShape fire;
-	fire.setRadius(50.f);
-	fire.setFillColor(sf::Color::Yellow);
-	fire.setPosition({ 200 - fire.getRadius(), 200 - fire.getRadius() });
+	sf::CircleShape fireObject;
+	fireObject.setRadius(50.f);
+	fireObject.setFillColor(sf::Color::Yellow);
+	fireObject.setPosition({ 200 - fireObject.getRadius(), 200 - fireObject.getRadius() });
+
+	FireAudio fireAudio;
+	fireAudio.play();
 
 	sf::Clock deltaClock;
 	while (window.isOpen())
@@ -32,15 +36,34 @@ int main()
 		ImGui::SFML::Update(window, deltaClock.restart());
 
 		ImGui::Begin("Fire Settings");
-		ImGui::Text("TEXT!");
+
+		float intensity = fireAudio.intensity.load();
+		if (ImGui::SliderFloat("Base Intensity", &intensity, 0.0f, 1.0f))
+		{
+			fireAudio.intensity.store(intensity);
+		}
+
+		float crackle = fireAudio.crackle.load();
+		if (ImGui::SliderFloat("Crackle", &crackle, 0.0f, 1.0f))
+		{
+			fireAudio.crackle.store(crackle);
+		}
+
+		float hiss = fireAudio.hiss.load();
+		if (ImGui::SliderFloat("Hiss", &hiss, 0.0f, 1.0f))
+		{
+			fireAudio.hiss.store(hiss);
+		}
+
 		ImGui::End();
 
 		window.clear();
-		window.draw(fire);
+		window.draw(fireObject);
 		ImGui::SFML::Render(window);
 		window.display();
 	}
 
+	fireAudio.stop();
 	ImGui::SFML::Shutdown();
 	return 0;
 }
