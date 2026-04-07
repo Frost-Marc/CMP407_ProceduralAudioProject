@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0F6BEA94-6E5B-482C-AF5F-348B7E1C429C}|CMP407-ProceduralAudio\\CMP407-ProceduralAudio.vcxproj|M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\CMP407-ProceduralAudio\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0F6BEA94-6E5B-482C-AF5F-348B7E1C429C}|CMP407-ProceduralAudio\\CMP407-ProceduralAudio.vcxproj|solutionrelative:CMP407-ProceduralAudio\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0F6BEA94-6E5B-482C-AF5F-348B7E1C429C}|CMP407-ProceduralAudio\\CMP407-ProceduralAudio.vcxproj|M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\CMP407-ProceduralAudio\\FireAudio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0F6BEA94-6E5B-482C-AF5F-348B7E1C429C}|CMP407-ProceduralAudio\\CMP407-ProceduralAudio.vcxproj|solutionrelative:CMP407-ProceduralAudio\\FireAudio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +14,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FireAudio.h",
-              "DocumentMoniker": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\CMP407-ProceduralAudio\\FireAudio.h",
-              "RelativeDocumentMoniker": "CMP407-ProceduralAudio\\FireAudio.h",
-              "ToolTip": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\CMP407-ProceduralAudio\\FireAudio.h",
-              "RelativeToolTip": "CMP407-ProceduralAudio\\FireAudio.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-03-05T09:48:45.551Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Main.cpp",
-              "DocumentMoniker": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\CMP407-ProceduralAudio\\Main.cpp",
-              "RelativeDocumentMoniker": "CMP407-ProceduralAudio\\Main.cpp",
-              "ToolTip": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\CMP407-ProceduralAudio\\Main.cpp",
-              "RelativeToolTip": "CMP407-ProceduralAudio\\Main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Title": "main.cpp",
+              "DocumentMoniker": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\main.cpp",
+              "RelativeDocumentMoniker": "main.cpp",
+              "ToolTip": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\main.cpp",
+              "RelativeToolTip": "main.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-02-12T13:44:29.562Z",
+              "WhenOpened": "2026-04-07T13:31:30.91Z",
               "EditorCaption": ""
             }
           ]
