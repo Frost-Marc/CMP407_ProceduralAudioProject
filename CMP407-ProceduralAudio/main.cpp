@@ -14,6 +14,7 @@ int main()
 
 	sf::CircleShape fireObject;
 	fireObject.setRadius(50.f);
+	fireObject.setOrigin({ 60.f, 60.f });
 	fireObject.setFillColor(sf::Color::Yellow);
 	fireObject.setPosition({ 200 - fireObject.getRadius(), 200 - fireObject.getRadius() });
 
@@ -35,29 +36,41 @@ int main()
 
 		ImGui::SFML::Update(window, deltaClock.restart());
 
-		ImGui::Begin("Fire Settings");
+		// --- ImGui Interface ---
+		ImGui::Begin("Fire Sound Settings");
+		ImGui::Text("Adjust the layers to change the fire personality.");
+		ImGui::Separator();
 
-		float intensity = fireAudio.intensity.load();
-		if (ImGui::SliderFloat("Base Intensity", &intensity, 0.0f, 1.0f))
-		{
-			fireAudio.intensity.store(intensity);
+		if (ImGui::CollapsingHeader("Wood & Crackle", ImGuiTreeNodeFlags_DefaultOpen)) {
+			ImGui::SliderFloat("Crackle Probability", &fireAudio.crackleProbability, 0.0f, 0.001f, "%.5f");
+			ImGui::SliderFloat("Crackle Filter", &fireAudio.crackleFilterFreq, 2000.0f, 8000.0f);
 		}
 
-		float crackle = fireAudio.crackle.load();
-		if (ImGui::SliderFloat("Crackle", &crackle, 0.0f, 1.0f))
-		{
-			fireAudio.crackle.store(crackle);
+		if (ImGui::CollapsingHeader("Gas & Hiss", ImGuiTreeNodeFlags_DefaultOpen)) {
+			ImGui::SliderFloat("Hiss Volume", &fireAudio.hissGain, 0.0f, 0.2f);
+			ImGui::SliderFloat("Hiss Filter", &fireAudio.hissFilterFreq, 5000.0f, 12000.0f);
 		}
 
-		float hiss = fireAudio.hiss.load();
-		if (ImGui::SliderFloat("Hiss", &hiss, 0.0f, 1.0f))
-		{
-			fireAudio.hiss.store(hiss);
+		if (ImGui::CollapsingHeader("Flame & Roar", ImGuiTreeNodeFlags_DefaultOpen)) {
+			ImGui::SliderFloat("Roar Volume", &fireAudio.roarGain, 0.0f, 1.0f);
+			ImGui::SliderFloat("Roar Filter", &fireAudio.roarFilterFreq, 10.0f, 500.0f);
+			ImGui::SliderFloat("Lapping Speed", &fireAudio.lappingSpeed, 0.1f, 5.0f);
+		}
+
+		ImGui::Separator();
+		if (ImGui::Button("Reset to Default")) {
+			fireAudio.crackleProbability = 0.00015f;
+			fireAudio.crackleFilterFreq = 3500.0f;
+			fireAudio.hissGain = 0.04f;
+			fireAudio.hissFilterFreq = 8000.0f;
+			fireAudio.roarGain = 0.35f;
+			fireAudio.roarFilterFreq = 100.0f;
+			fireAudio.lappingSpeed = 0.5f;
 		}
 
 		ImGui::End();
 
-		window.clear();
+		window.clear(sf::Color(10, 10, 10));
 		window.draw(fireObject);
 		ImGui::SFML::Render(window);
 		window.display();

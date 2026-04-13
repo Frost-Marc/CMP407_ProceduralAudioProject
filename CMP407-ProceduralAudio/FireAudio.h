@@ -1,61 +1,78 @@
 #pragma once
 #include <SFML/Audio.hpp>
 #include <vector>
-#include <random>>
-#include <atomic>
+#include <cstdint>
+#include "DSPHelper.h"
 
 class FireAudio : public sf::SoundStream
 {
 public:
-	std::atomic<float> intensity{ 0.5f };
-	std::atomic<float> crackle{ 0.4f };
-	std::atomic<float> hiss{ 0.2f };
+    // --- ImGui Accessible Parameters ---
+    float crackleProbability = 0.0001f;
+    float crackleFilterFreq = 3500.0f;
 
-	FireAudio()
+    float hissGain = 0.05f;
+    float hissFilterFreq = 8000.0f;
+
+    float roarGain = 0.3f;
+    float roarFilterFreq = 100.0f;
+    float lappingSpeed = 0.5f;
+
+	FireAudio(unsigned int sampleRate = 44100)
 	{
-		initialize(1, 44100, {sf::SoundChannel::Mono});
+		m_sampleRate = sampleRate;
+		initialize(1, sampleRate, {sf::SoundChannel::Mono});
 	}
 
 private:
-	std::mt19937 gen;
-	std::uniform_real_distribution<float> dist{ -1.0f, 1.0f };
-	float lastSample = 0.0f;
+	unsigned int m_sampleRate;
+
+	// DSP States
+	float _hissState = 0, _hissLastIn = 0;
+	float _roarState = 0;
+	float _crackleState = 0, _crackleLastIn = 0;
+	float _lfoPhase = 0;
+
+	// Pink Noise State
+	DSP::PinkNoise _pink;
 
 	bool onGetData(Chunk& data) override
 	{
-		static std::vector<std::int16_t> samples;
-		samples.resize(2048);
+		static std::vector<std::int16_t> buffer(4096);
+		float dt = 1.0f / m_sampleRate;
+		float sRateF = static_cast<float>(m_sampleRate);
 
-		for (auto& sample : samples)
-		{
-			float white = dist(gen);
+		for (int i = 0; i < buffer.size(); i++) {
+            // 1. THE HISS (High-frequency gas sound)
+            float hiss = DSP::ApplyHighPass(DSP::WhiteNoise(), hissFilterFreq, sRateF, _hissState, _hissLastIn);
 
-			float brown = (0.02f * white + 0.98f * lastSample);
-			lastSample = brown;
+            // 2. THE CRACKLE (Sharp wood snapping)
+            float crackleImpulse = 0.0f;
+            if (DSP::Chance(crackleProbability))
+            {
+                crackleImpulse = DSP::WhiteNoise() * 0.8f;
+            }
+            float crackle = DSP::ApplyHighPass(crackleImpulse, crackleFilterFreq, sRateF, _crackleState, _crackleLastIn);
 
-			float crackle = 0.0f;
-			if (std::uniform_real_distribution<float>(0, 10000)(gen) < crackle * 50.0f)
-			{
-				crackle = (white > 0 ? 1.0f : -1.0f) * 0.8f;
-			}
+            // 3. THE ROAR (The body of the flame with LFO "breathing")
+            _lfoPhase += 2.0f * (float)M_PI * lappingSpeed * dt;
+            if (_lfoPhase > 2.0f * (float)M_PI) _lfoPhase -= 2.0f * (float)M_PI;
 
-			float combined = (brown * intensity) + (white * hiss * 0.1f) + crackle;
+            float lappingMod = (std::sin(_lfoPhase) * 0.5f) + 0.5f;
+            float roar = DSP::ApplyLowPass(_pink.Next(), roarFilterFreq, sRateF, _roarState);
+            roar *= (0.5f + (lappingMod * 0.5f));
 
-			if (combined > 1.0f)
-			{
-				combined = 1.0f;
-			}
-			
-			if (combined < -1.0f)
-			{
-				combined = -1.0f;
-			}
+            // FINAL MIX & CLAMP
+            float finalOutput = (hiss * hissGain) + (crackle * 1.0f) + (roar * roarGain);
 
-			sample = static_cast<std::int16_t>(combined * 32767);
+            if (finalOutput > 1.0f)  finalOutput = 1.0f;
+            if (finalOutput < -1.0f) finalOutput = -1.0f;
+
+            buffer[i] = static_cast<std::int16_t>(finalOutput * 32767);
 		}
 
-		data.samples = samples.data();
-		data.sampleCount = samples.size();
+		data.samples = buffer.data();
+		data.sampleCount = buffer.size();
 		return true;
 	}
 
