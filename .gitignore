@@ -46,18 +46,12 @@
 /Debug/
 /Release/
 
-!libraries/
-!libraries/include/
-!libraries/include/**/*.hpp
-!libraries/include/**/*.h
-!libraries/include/**/*.inl
-
 # Visual Studio
 .vs/
 *.vcxproj.user
 
 # SFML binaries
-SFML/
+!SFML/
 *.lib
 *.dll
 *.pdb
