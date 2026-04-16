@@ -1,0 +1,12 @@
+﻿  imgui-SFML.cpp
+  imgui.cpp
+  imgui_draw.cpp
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  main.cpp
+M:\CMP_407\CMP407_ProceduralAudioProject\CMP407-ProceduralAudio\main.cpp(13,19): warning C4834: discarding return value of function with [[nodiscard]] attribute
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 2166 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  CMP407-ProceduralAudio.vcxproj -> M:\CMP_407\CMP407_ProceduralAudioProject\CMP407-ProceduralAudio\x64\Release\CMP407-ProceduralAudio.exe

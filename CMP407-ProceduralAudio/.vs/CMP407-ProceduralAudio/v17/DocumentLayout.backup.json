@@ -1,17 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\mabra\\GitHub\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\",
+  "WorkspaceRootPath": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|C:\\Users\\mabra\\GitHub\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|C:\\Users\\mabra\\GitHub\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\FireAudio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\FireAudio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|solutionrelative:FireAudio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|C:\\Users\\mabra\\GitHub\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\DSPHelper.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\DSPHelper.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|solutionrelative:DSPHelper.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -28,37 +28,35 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "DSPHelper.h",
-              "DocumentMoniker": "C:\\Users\\mabra\\GitHub\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\DSPHelper.h",
+              "DocumentMoniker": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\DSPHelper.h",
               "RelativeDocumentMoniker": "DSPHelper.h",
-              "ToolTip": "C:\\Users\\mabra\\GitHub\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\DSPHelper.h",
+              "ToolTip": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\DSPHelper.h",
               "RelativeToolTip": "DSPHelper.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-13T12:24:25.255Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-13T12:24:25.255Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "FireAudio.h",
-              "DocumentMoniker": "C:\\Users\\mabra\\GitHub\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\FireAudio.h",
+              "DocumentMoniker": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\FireAudio.h",
               "RelativeDocumentMoniker": "FireAudio.h",
-              "ToolTip": "C:\\Users\\mabra\\GitHub\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\FireAudio.h",
+              "ToolTip": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\FireAudio.h",
               "RelativeToolTip": "FireAudio.h",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABsAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-07T14:21:07.054Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-07T14:21:07.054Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "main.cpp",
-              "DocumentMoniker": "C:\\Users\\mabra\\GitHub\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\main.cpp",
+              "DocumentMoniker": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
-              "ToolTip": "C:\\Users\\mabra\\GitHub\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\main.cpp",
+              "ToolTip": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-04-07T13:31:30.91Z",
               "EditorCaption": ""
