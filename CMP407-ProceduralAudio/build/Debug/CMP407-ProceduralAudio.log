@@ -1,1 +1,3 @@
-﻿LINK : fatal error LNK1104: cannot open file 'sfml-graphics-d.lib'
+﻿  main.cpp
+M:\CMP_407\CMP407_ProceduralAudioProject\CMP407-ProceduralAudio\main.cpp(14,19): warning C4834: discarding return value of function with [[nodiscard]] attribute
+  CMP407-ProceduralAudio.vcxproj -> M:\CMP_407\CMP407_ProceduralAudioProject\CMP407-ProceduralAudio\x64\Debug\CMP407-ProceduralAudio.exe

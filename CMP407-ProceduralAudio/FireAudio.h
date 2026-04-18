@@ -18,14 +18,21 @@ public:
     float roarFilterFreq = 100.0f;
     float lappingSpeed = 0.5f;
 
-	FireAudio(unsigned int sampleRate = 44100)
+	FireAudio(unsigned int sampleRate = 44100) : m_sampleRate(sampleRate)
 	{
 		m_sampleRate = sampleRate;
 		initialize(1, sampleRate, {sf::SoundChannel::Mono});
+
+        setRelativeToListener(false);
+        setMinDistance(100.f);
+        setAttenuation(1.0f);
+
+        m_processingBuffer.resize(4096);
 	}
 
 private:
 	unsigned int m_sampleRate;
+    std::vector<std::int16_t> m_processingBuffer;
 
 	// DSP States
 	float _hissState = 0, _hissLastIn = 0;
@@ -38,11 +45,10 @@ private:
 
 	bool onGetData(Chunk& data) override
 	{
-		static std::vector<std::int16_t> buffer(4096);
-		float dt = 1.0f / m_sampleRate;
+        float dt = 1.0f / static_cast<float>(m_sampleRate);
 		float sRateF = static_cast<float>(m_sampleRate);
 
-		for (int i = 0; i < buffer.size(); i++) {
+		for (int i = 0; i < m_processingBuffer.size(); i++) {
             // 1. THE HISS (High-frequency gas sound)
             float hiss = DSP::ApplyHighPass(DSP::WhiteNoise(), hissFilterFreq, sRateF, _hissState, _hissLastIn);
 
@@ -68,11 +74,11 @@ private:
             if (finalOutput > 1.0f)  finalOutput = 1.0f;
             if (finalOutput < -1.0f) finalOutput = -1.0f;
 
-            buffer[i] = static_cast<std::int16_t>(finalOutput * 32767);
+            m_processingBuffer[i] = static_cast<std::int16_t>(finalOutput * 32767);
 		}
 
-		data.samples = buffer.data();
-		data.sampleCount = buffer.size();
+		data.samples = m_processingBuffer.data();
+		data.sampleCount = m_processingBuffer.size();
 		return true;
 	}
 
