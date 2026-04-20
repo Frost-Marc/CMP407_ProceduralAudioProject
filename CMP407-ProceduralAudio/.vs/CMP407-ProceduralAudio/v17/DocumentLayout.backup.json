@@ -11,10 +11,6 @@
       "RelativeMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|solutionrelative:FireAudio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\Camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|solutionrelative:Camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\DSPHelper.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{8453678E-3930-46D0-BFDA-1747D345654D}|CMP407-ProceduralAudio.vcxproj|solutionrelative:DSPHelper.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
@@ -26,32 +22,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Camera.h",
-              "DocumentMoniker": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\Camera.h",
-              "RelativeDocumentMoniker": "Camera.h",
-              "ToolTip": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\Camera.h",
-              "RelativeToolTip": "Camera.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-18T13:58:42.021Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "DSPHelper.h",
               "DocumentMoniker": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\DSPHelper.h",
               "RelativeDocumentMoniker": "DSPHelper.h",
               "ToolTip": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\DSPHelper.h",
               "RelativeToolTip": "DSPHelper.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAArAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAAiwBkAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-13T12:24:25.255Z"
+              "WhenOpened": "2026-04-13T12:24:25.255Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -61,7 +45,7 @@
               "RelativeDocumentMoniker": "FireAudio.h",
               "ToolTip": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\FireAudio.h",
               "RelativeToolTip": "FireAudio.h",
-              "ViewState": "AgIAADYAAAAAAAAAAAAAAFQAAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-04-07T14:21:07.054Z",
               "EditorCaption": ""
@@ -74,7 +58,7 @@
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "M:\\CMP_407\\CMP407_ProceduralAudioProject\\CMP407-ProceduralAudio\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAkwF0AAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAAAGQAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-04-07T13:31:30.91Z",
               "EditorCaption": ""

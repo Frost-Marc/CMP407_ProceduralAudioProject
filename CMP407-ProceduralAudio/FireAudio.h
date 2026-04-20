@@ -20,12 +20,11 @@ public:
 
 	FireAudio(unsigned int sampleRate = 44100) : m_sampleRate(sampleRate)
 	{
-		m_sampleRate = sampleRate;
 		initialize(1, sampleRate, {sf::SoundChannel::Mono});
 
         setRelativeToListener(false);
-        setMinDistance(100.f);
-        setAttenuation(1.0f);
+        setMinDistance(60.f);
+        setAttenuation(10.0f);
 
         m_processingBuffer.resize(4096);
 	}
