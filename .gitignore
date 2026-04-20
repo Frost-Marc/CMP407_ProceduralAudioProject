@@ -49,3 +49,10 @@
 # Visual Studio
 .vs/
 *.vcxproj.user
+
+# SFML binaries
+!SFML/
+!.lib
+!.dll
+!.pdb
+!.a
