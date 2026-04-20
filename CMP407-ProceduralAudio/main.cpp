@@ -20,6 +20,12 @@ int main()
 	fireObject.setFillColor(sf::Color::Yellow);
 	fireObject.setPosition({ fireCenter });
 
+	sf::CircleShape playerListener(30);
+	playerListener.setOrigin({ 15, 15 });
+	playerListener.setFillColor(sf::Color::Green);
+	playerListener.setPosition({ 100, 100 });
+	float moveSpeed = 1.0f;
+
 	FireAudio fireAudio;
 	fireAudio.setPosition({ fireCenter.x, fireCenter.y, 0.0f });
 	fireAudio.setVolume(50.0f);
@@ -50,9 +56,26 @@ int main()
 			}
 		}
 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
+		{
+			playerListener.move({ 0.0f, -moveSpeed });
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+		{
+			playerListener.move({ 0.0f, moveSpeed });
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+		{
+			playerListener.move({ -moveSpeed, 0.0f });
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+		{
+			playerListener.move({ moveSpeed, 0.0f });
+		}
 		//update the listener
-		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		sf::Listener::setPosition({ (float)mousePos.x, (float)mousePos.y, 0.0f });
+		//sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+		//sf::Listener::setPosition({ (float)mousePos.x, (float)mousePos.y, 0.0f });
+		sf::Listener::setPosition({ playerListener.getPosition().x, playerListener.getPosition().y, 0.0f });
 		sf::Listener::setDirection({ 0.f, 0.f, -1.f });
 
 		ImGui::SFML::Update(window, deltaClock.restart());
@@ -157,6 +180,7 @@ int main()
 		window.draw(maxDistanceVisual);
 		window.draw(distanceVisual);
 		window.draw(fireObject);
+		window.draw(playerListener);
 		ImGui::SFML::Render(window);
 		window.display();
 	}
