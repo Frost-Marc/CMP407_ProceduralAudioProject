@@ -22,6 +22,24 @@ namespace DSP
 		return dist(gen) < probability;
 	}
 
+	struct Smoother
+	{
+		float current = 0.0f;
+		float target = 0.0f;
+		float alpha = 0.0001f;
+
+		void setImmediately(float val)
+		{
+			current = target = val;
+		}
+
+		float next()
+		{
+			current = current + alpha * (target - current);
+			return current;
+		}
+	};
+
 	struct PinkNoise
 	{
 		float b0 = 0.0f, b1 = 0.0f, b2 = 0.0f;
@@ -36,22 +54,48 @@ namespace DSP
 		}
 	};
 
-	inline float ApplyLowPass(float input, float cutoff, float sampleRate, float& state) 
+	struct LowPass
 	{
-		float rc = 1.0f / (cutoff * 2.0f * (float)M_PI);
-		float dt = 1.0f / sampleRate;
-		float alpha = dt / (rc + dt);
-		state = state + alpha * (input - state);
-		return state;
-	}
+		float state = 0.0f;
 
-	inline float ApplyHighPass(float input, float cutoff, float sampleRate, float& state, float& lastIn) 
+		float process(float input, float cutoff, float sampleRate)
+		{
+			float rc = 1.0f / (cutoff * 2.0f * (float)M_PI);
+			float dt = 1.0f / sampleRate;
+			float alpha = dt / (rc + dt);
+			state = state + alpha * (input - state);
+			return state;
+		}
+	};
+
+	struct HighPass
 	{
-		float rc = 1.0f / (cutoff * 2.0f * (float)M_PI);
-		float dt = 1.0f / sampleRate;
-		float alpha = rc / (rc + dt);
-		state = alpha * (state + input - lastIn);
-		lastIn = input;
-		return state;
-	}
+		float state = 0.0f;
+		float lastIn = 0.0f;
+
+		float process(float input, float cutoff, float sampleRate)
+		{
+			float rc = 1.0f / (cutoff * 2.0f * (float)M_PI);
+			float dt = 1.0f / sampleRate;
+			float alpha = rc / (rc + dt);
+			state = alpha * (state + input - lastIn);
+			lastIn = input;
+			return state;
+		}
+	};
+
+	struct LFO
+	{
+		float phase = 0.0f;
+
+		float process(float speedHz, float dt)
+		{
+			phase += 2.0f * (float)M_PI * speedHz * dt;
+			if (phase > 2.0f * (float)M_PI)
+			{
+				phase -= 2.0f * (float)M_PI;
+			}
+			return (std::sin(phase) * 0.5f) + 0.5f;
+		}
+	};
 }

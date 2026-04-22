@@ -1,6 +1,5 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
-
 #include <SFML/System.hpp>
 #include "SFML/Graphics.hpp"
 #include <iostream>
@@ -14,13 +13,12 @@ int main()
 
 	sf::Vector2f fireCenter = { 960.f, 540.f };
 	float fireRadius = 50.0f;
-	float playerRadius = 30.0f;
-
 	sf::CircleShape fireObject(fireRadius);
 	fireObject.setOrigin({ fireRadius, fireRadius });
 	fireObject.setFillColor(sf::Color::Yellow);
 	fireObject.setPosition({ fireCenter });
 
+	float playerRadius = 30.0f;
 	sf::CircleShape playerListener(playerRadius);
 	playerListener.setOrigin({ playerRadius, playerRadius });
 	playerListener.setFillColor(sf::Color::Green);
