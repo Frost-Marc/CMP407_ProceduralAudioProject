@@ -72,11 +72,13 @@ int main()
 		{
 			playerListener.move({ moveSpeed, 0.0f });
 		}
+
 		//update the listener
 		//sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 		//sf::Listener::setPosition({ (float)mousePos.x, (float)mousePos.y, 0.0f });
-		sf::Listener::setPosition({ playerListener.getPosition().x, playerListener.getPosition().y, 0.0f });
+		sf::Listener::setPosition({ playerListener.getPosition().x, playerListener.getPosition().y, 100.0f });
 		sf::Listener::setDirection({ 0.f, 0.f, -1.f });
+		sf::Listener::setUpVector({ 0.f, 1.f, 0.f });
 
 		ImGui::SFML::Update(window, deltaClock.restart());
 

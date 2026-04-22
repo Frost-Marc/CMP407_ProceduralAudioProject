@@ -23,7 +23,8 @@ public:
 		initialize(1, sampleRate, {sf::SoundChannel::Mono});
 
         setRelativeToListener(false);
-        setMinDistance(60.f);
+        setPosition({ 0.f, 0.f, 0.f });
+        setMinDistance(100.f);
         setAttenuation(10.0f);
 
         m_processingBuffer.resize(4096);
