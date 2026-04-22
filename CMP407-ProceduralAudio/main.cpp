@@ -13,18 +13,25 @@ int main()
 	ImGui::SFML::Init(window);
 
 	sf::Vector2f fireCenter = { 960.f, 540.f };
-	float fireRadius = 50.f;
+	float fireRadius = 50.0f;
+	float playerRadius = 30.0f;
 
 	sf::CircleShape fireObject(fireRadius);
 	fireObject.setOrigin({ fireRadius, fireRadius });
 	fireObject.setFillColor(sf::Color::Yellow);
 	fireObject.setPosition({ fireCenter });
 
-	sf::CircleShape playerListener(30);
-	playerListener.setOrigin({ 15, 15 });
+	sf::CircleShape playerListener(playerRadius);
+	playerListener.setOrigin({ playerRadius, playerRadius });
 	playerListener.setFillColor(sf::Color::Green);
 	playerListener.setPosition({ 100, 100 });
+
+	sf::RectangleShape nose({ 6.f, 20.f });
+	nose.setFillColor(sf::Color::Red);
+	nose.setOrigin({ 3.f, 20.f + playerRadius });
+
 	float moveSpeed = 1.0f;
+	float playerRotation = 270.0f;
 
 	FireAudio fireAudio;
 	fireAudio.setPosition({ fireCenter.x, fireCenter.y, 0.0f });
@@ -54,6 +61,27 @@ int main()
 			{
 				window.close();
 			}
+
+			if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+			{
+				if (keyPressed->code == sf::Keyboard::Key::E)
+				{
+					playerRotation += 90.0f;
+					if (playerRotation >= 360.0f)
+					{
+						playerRotation -= 360.0f;
+					}
+				}
+
+				if (keyPressed->code == sf::Keyboard::Key::Q)
+				{
+					playerRotation -= 90.0f;
+					if (playerRotation < 0.0f)
+					{
+						playerRotation += 360.0f;
+					}
+				}
+			}
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
@@ -73,12 +101,19 @@ int main()
 			playerListener.move({ moveSpeed, 0.0f });
 		}
 
+		sf::Angle currentAngle = sf::degrees(playerRotation);
+		playerListener.setRotation(currentAngle);
+
+		nose.setPosition(playerListener.getPosition());
+		nose.setRotation(currentAngle + sf::degrees(90.f));
+
+		float rad = currentAngle.asRadians();
+		sf::Vector3f forward(std::cos(rad), std::sin(rad), 0.0f);
+
 		//update the listener
-		//sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		//sf::Listener::setPosition({ (float)mousePos.x, (float)mousePos.y, 0.0f });
 		sf::Listener::setPosition({ playerListener.getPosition().x, playerListener.getPosition().y, 100.0f });
-		sf::Listener::setDirection({ 0.f, 0.f, -1.f });
-		sf::Listener::setUpVector({ 0.f, 1.f, 0.f });
+		sf::Listener::setDirection(forward);
+		sf::Listener::setUpVector({ 0.f, 0.f, -1.f });
 
 		ImGui::SFML::Update(window, deltaClock.restart());
 
@@ -171,8 +206,6 @@ int main()
 			maxRadius = 10000.0f; // Infinite
 		}
 
-		//maxRadius = minDist + (minDist * (1.0f / threshold - 1.0f)) / atten;
-
 		maxDistanceVisual.setRadius(maxRadius);
 		maxDistanceVisual.setOrigin({ maxRadius, maxRadius });
 		maxDistanceVisual.setPosition(fireCenter);
@@ -183,6 +216,7 @@ int main()
 		window.draw(distanceVisual);
 		window.draw(fireObject);
 		window.draw(playerListener);
+		window.draw(nose);
 		ImGui::SFML::Render(window);
 		window.display();
 	}
