@@ -5,6 +5,35 @@
 #include <iostream>
 #include "FireAudio.h"
 
+struct Walls
+{
+	sf::RectangleShape shape;
+	bool isActive = false;
+	std::string name;
+};
+
+bool checkGlobalOcclusion(sf::Vector2f player, sf::Vector2f fire, const std::vector<Walls>& walls)
+{
+	for (const auto& wall : walls)
+	{
+		if (!wall.isActive)
+		{
+			continue;
+		}
+
+		sf::FloatRect bounds = wall.shape.getGlobalBounds();
+		for (float t = 0.05f; t < 0.95f; t += 0.05f)
+		{
+			sf::Vector2f point = player + t * (fire - player);
+			if (bounds.contains(point))
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode({ 1920, 1080 }), "Procedural-Audio");
@@ -19,7 +48,7 @@ int main()
 	fireObject.setFillColor(sf::Color::Yellow);
 	fireObject.setPosition({ fireCenter });
 
-	//creation of player object
+	// creation of player object
 	float playerRadius = 30.0f;
 	sf::CircleShape playerListener(playerRadius);
 	playerListener.setOrigin({ playerRadius, playerRadius });
@@ -32,6 +61,24 @@ int main()
 
 	float moveSpeed = 1.0f;
 	float playerRotation = 270.0f;
+
+	// creation of walls
+	std::vector<Walls> walls = {
+		{ sf::RectangleShape({ 300, 30 }), false, "North Wall" },
+		{ sf::RectangleShape({ 300, 30 }), false, "South Wall" },
+		{ sf::RectangleShape({ 30, 300 }), false, "West Wall" },
+		{ sf::RectangleShape({ 30, 300 }), false, "East Wall" },
+	};
+
+	walls[0].shape.setPosition({ 810, 350 });
+	walls[1].shape.setPosition({ 810, 700 });
+	walls[2].shape.setPosition({ 650, 390 });
+	walls[3].shape.setPosition({ 1240, 390 });
+
+	for (auto& wall : walls)
+	{
+		wall.shape.setFillColor(sf::Color(sf::Color::Blue));
+	}
 
 	// creation of fire audio
 	FireAudio fireAudio;
@@ -121,6 +168,9 @@ int main()
 		sf::Listener::setDirection(forward);
 		sf::Listener::setUpVector({ 0.f, 0.f, -1.f });
 
+		bool occluded = checkGlobalOcclusion(playerListener.getPosition(), fireCenter, walls);
+		fireAudio.setOcclusionTraget(occluded ? 600.0f : 20000.0f);
+
 		ImGui::SFML::Update(window, deltaClock.restart());
 
 		// ImGui Interface
@@ -175,6 +225,14 @@ int main()
 		}
 		ImGui::Separator();
 
+		// checkboxes to turn on and off walls
+		ImGui::Text("Wall Toggles");
+		for (auto& wall : walls)
+		{
+			ImGui::Checkbox(wall.name.c_str(), &wall.isActive);
+		}
+		ImGui::Separator();
+
 		// button to reset all of the imgui changable variables to default
 		if (ImGui::Button("Reset to Default")) 
 		{
@@ -222,6 +280,15 @@ int main()
 		window.clear(sf::Color(10, 10, 10));
 		window.draw(maxDistanceVisual);
 		window.draw(distanceVisual);
+
+		for (const auto& wall : walls)
+		{
+			if (wall.isActive)
+			{
+				window.draw(wall.shape);
+			}
+		}
+
 		window.draw(fireObject);
 		window.draw(playerListener);
 		window.draw(nose);

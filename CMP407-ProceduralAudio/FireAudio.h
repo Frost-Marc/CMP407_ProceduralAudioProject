@@ -34,7 +34,13 @@ public:
         sRoarGain.setImmediately(roarGain);
         sRoarFreq.setImmediately(roarFilterFreq);
         sLappingSpeed.setImmediately(lappingSpeed);
+        sOcclusionFreq.setImmediately(20000.0f);
 	}
+
+    void setOcclusionTraget(float freq)
+    {
+        sOcclusionFreq.target = freq;
+    }
 
 private:
 	unsigned int m_sampleRate;
@@ -46,6 +52,7 @@ private:
     DSP::LowPass   m_roarFilter;
     DSP::LFO       m_lappingLFO;
     DSP::PinkNoise m_pink;
+    DSP::LowPass   m_occlusionFilter;
 
     // SMOOTHING STATES
     DSP::Smoother sCrackleFreq;
@@ -54,22 +61,23 @@ private:
     DSP::Smoother sRoarGain;
     DSP::Smoother sRoarFreq;
     DSP::Smoother sLappingSpeed;
+    DSP::Smoother sOcclusionFreq;
 
 	bool onGetData(Chunk& data) override
 	{
         float dt = 1.0f / static_cast<float>(m_sampleRate);
 		float sRateF = static_cast<float>(m_sampleRate);
 
+        // PARAMETER SMOOTHING
+        sCrackleFreq.target = crackleFilterFreq;
+        sHissGain.target = hissGain;
+        sHissFreq.target = hissFilterFreq;
+        sRoarGain.target = roarGain;
+        sRoarFreq.target = roarFilterFreq;
+        sLappingSpeed.target = lappingSpeed;
+
 		for (int i = 0; i < m_processingBuffer.size(); i++) 
         {
-            // --- PARAMETER SMOOTHING ---
-            sCrackleFreq.target = crackleFilterFreq;
-            sHissGain.target = hissGain;
-            sHissFreq.target = hissFilterFreq;
-            sRoarGain.target = roarGain;
-            sRoarFreq.target = roarFilterFreq;
-            sLappingSpeed.target = lappingSpeed;
-
             // THE HISS (High-frequency gas sound)
             float hiss = m_hissFilter.process(DSP::WhiteNoise(), sHissFreq.next(), sRateF);
 
@@ -84,6 +92,9 @@ private:
 
             // FINAL MIX & CLAMP
             float finalOutput = (hiss * sHissGain.next()) + (crackle * 1.0f) + (roar * sRoarGain.next());
+
+            // APPLY OCCLUSION
+            finalOutput = m_occlusionFilter.process(finalOutput, sOcclusionFreq.next(), sRateF);
 
             m_processingBuffer[i] = static_cast<std::int16_t>(std::clamp(finalOutput, -1.0f, 1.0f) * 32767);
 		}
