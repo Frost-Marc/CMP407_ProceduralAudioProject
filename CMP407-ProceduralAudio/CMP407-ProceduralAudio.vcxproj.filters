@@ -68,5 +68,8 @@
     <ClInclude Include="DSPHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WallManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

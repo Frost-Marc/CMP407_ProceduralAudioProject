@@ -4,35 +4,7 @@
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include "FireAudio.h"
-
-struct Walls
-{
-	sf::RectangleShape shape;
-	bool isActive = false;
-	std::string name;
-};
-
-bool checkGlobalOcclusion(sf::Vector2f player, sf::Vector2f fire, const std::vector<Walls>& walls)
-{
-	for (const auto& wall : walls)
-	{
-		if (!wall.isActive)
-		{
-			continue;
-		}
-
-		sf::FloatRect bounds = wall.shape.getGlobalBounds();
-		for (float t = 0.05f; t < 0.95f; t += 0.05f)
-		{
-			sf::Vector2f point = player + t * (fire - player);
-			if (bounds.contains(point))
-			{
-				return true;
-			}
-		}
-	}
-	return false;
-}
+#include "WallManager.h"
 
 int main()
 {
@@ -43,6 +15,7 @@ int main()
 	// creation of fire object
 	sf::Vector2f fireCenter = { 960.f, 540.f };
 	float fireRadius = 50.0f;
+
 	sf::CircleShape fireObject(fireRadius);
 	fireObject.setOrigin({ fireRadius, fireRadius });
 	fireObject.setFillColor(sf::Color::Yellow);
@@ -50,6 +23,7 @@ int main()
 
 	// creation of player object
 	float playerRadius = 30.0f;
+
 	sf::CircleShape playerListener(playerRadius);
 	playerListener.setOrigin({ playerRadius, playerRadius });
 	playerListener.setFillColor(sf::Color::Green);
@@ -62,23 +36,7 @@ int main()
 	float moveSpeed = 1.0f;
 	float playerRotation = 270.0f;
 
-	// creation of walls
-	std::vector<Walls> walls = {
-		{ sf::RectangleShape({ 300, 30 }), false, "North Wall" },
-		{ sf::RectangleShape({ 300, 30 }), false, "South Wall" },
-		{ sf::RectangleShape({ 30, 300 }), false, "West Wall" },
-		{ sf::RectangleShape({ 30, 300 }), false, "East Wall" },
-	};
-
-	walls[0].shape.setPosition({ 810, 350 });
-	walls[1].shape.setPosition({ 810, 700 });
-	walls[2].shape.setPosition({ 650, 390 });
-	walls[3].shape.setPosition({ 1240, 390 });
-
-	for (auto& wall : walls)
-	{
-		wall.shape.setFillColor(sf::Color(sf::Color::Blue));
-	}
+	WallManger wallMgr(fireCenter);
 
 	// creation of fire audio
 	FireAudio fireAudio;
@@ -168,8 +126,8 @@ int main()
 		sf::Listener::setDirection(forward);
 		sf::Listener::setUpVector({ 0.f, 0.f, -1.f });
 
-		bool occluded = checkGlobalOcclusion(playerListener.getPosition(), fireCenter, walls);
-		fireAudio.setOcclusionTraget(occluded ? 600.0f : 20000.0f);
+		float currentOcclusionFreq = wallMgr.getOcclusionFrequency(playerListener.getPosition(), fireCenter);
+		fireAudio.setOcclusionTraget(currentOcclusionFreq);
 
 		ImGui::SFML::Update(window, deltaClock.restart());
 
@@ -227,9 +185,17 @@ int main()
 
 		// checkboxes to turn on and off walls
 		ImGui::Text("Wall Toggles");
-		for (auto& wall : walls)
+		for (auto& wall : wallMgr.m_walls)
 		{
+			ImGui::PushID(wall.name.c_str());
 			ImGui::Checkbox(wall.name.c_str(), &wall.isActive);
+
+			if (wall.isActive) 
+			{
+				ImGui::SameLine();
+				ImGui::SliderFloat("Muffle", &wall.muffleFreq, 200.f, 5000.f, "%.0fHz");
+			}
+			ImGui::PopID();
 		}
 		ImGui::Separator();
 
@@ -281,7 +247,7 @@ int main()
 		window.draw(maxDistanceVisual);
 		window.draw(distanceVisual);
 
-		for (const auto& wall : walls)
+		for (const auto& wall : wallMgr.m_walls)
 		{
 			if (wall.isActive)
 			{
