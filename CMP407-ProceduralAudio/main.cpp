@@ -11,6 +11,7 @@ int main()
 	window.setFramerateLimit(144);
 	ImGui::SFML::Init(window);
 
+	// creation of fire object
 	sf::Vector2f fireCenter = { 960.f, 540.f };
 	float fireRadius = 50.0f;
 	sf::CircleShape fireObject(fireRadius);
@@ -18,6 +19,7 @@ int main()
 	fireObject.setFillColor(sf::Color::Yellow);
 	fireObject.setPosition({ fireCenter });
 
+	//creation of player object
 	float playerRadius = 30.0f;
 	sf::CircleShape playerListener(playerRadius);
 	playerListener.setOrigin({ playerRadius, playerRadius });
@@ -31,6 +33,7 @@ int main()
 	float moveSpeed = 1.0f;
 	float playerRotation = 270.0f;
 
+	// creation of fire audio
 	FireAudio fireAudio;
 	fireAudio.setPosition({ fireCenter.x, fireCenter.y, 0.0f });
 	fireAudio.setVolume(50.0f);
@@ -42,7 +45,7 @@ int main()
 	distanceVisual.setOutlineColor(sf::Color::Red);
 	distanceVisual.setOutlineThickness(2.f);
 
-	// Visual representation of the "Inaudible" raduis
+	// Visual representation of the audio drop off raduis
 	sf::CircleShape maxDistanceVisual;
 	maxDistanceVisual.setFillColor(sf::Color(255, 255, 255, 30));
 	maxDistanceVisual.setOutlineColor(sf::Color::White);
@@ -60,6 +63,7 @@ int main()
 				window.close();
 			}
 
+			// checks if the key is pressed to either rotate the player left or right
 			if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
 			{
 				if (keyPressed->code == sf::Keyboard::Key::E)
@@ -82,6 +86,7 @@ int main()
 			}
 		}
 
+		// player movement controls
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
 		{
 			playerListener.move({ 0.0f, -moveSpeed });
@@ -99,27 +104,30 @@ int main()
 			playerListener.move({ moveSpeed, 0.0f });
 		}
 
+		// rotates the player
 		sf::Angle currentAngle = sf::degrees(playerRotation);
 		playerListener.setRotation(currentAngle);
 
+		// rotates the player "nose" showing the forward direction
 		nose.setPosition(playerListener.getPosition());
 		nose.setRotation(currentAngle + sf::degrees(90.f));
 
+		// updated the players forward direction as it rotates
 		float rad = currentAngle.asRadians();
 		sf::Vector3f forward(std::cos(rad), std::sin(rad), 0.0f);
 
-		//update the listener
+		// update the listener
 		sf::Listener::setPosition({ playerListener.getPosition().x, playerListener.getPosition().y, 100.0f });
 		sf::Listener::setDirection(forward);
 		sf::Listener::setUpVector({ 0.f, 0.f, -1.f });
 
 		ImGui::SFML::Update(window, deltaClock.restart());
 
-		// --- ImGui Interface ---
+		// ImGui Interface
 		ImGui::Begin("Fire Sound Settings");
-		ImGui::Text("Master Controls");
 
-		//Master Volume Slider
+		// Master Volume Slider
+		ImGui::Text("Master Controls");
 		float currentVolume = fireAudio.getVolume();
 		if (ImGui::SliderFloat("Master Volume", &currentVolume, 0.0f, 100.0f, "%.0f%%"))
 		{
@@ -127,8 +135,8 @@ int main()
 		}
 		ImGui::Separator();
 
+		// sound component sliders
 		ImGui::Text("Adjust the layers to change the fire personality.");
-		//sound component sliders
 		if (ImGui::CollapsingHeader("Wood & Crackle", ImGuiTreeNodeFlags_DefaultOpen)) 
 		{
 			ImGui::SliderFloat("Crackle Probability", &fireAudio.crackleProbability, 0.0f, 0.001f, "%.5f");
@@ -149,8 +157,8 @@ int main()
 		}
 		ImGui::Separator();
 
+		// attenuation sliders
 		ImGui::Text("Adjust sound attenuation");
-		//attenuation sliders
 		if (ImGui::CollapsingHeader("Spatial Attenuation", ImGuiTreeNodeFlags_DefaultOpen)) 
 		{
 			float currentAtten = fireAudio.getAttenuation();
@@ -167,6 +175,7 @@ int main()
 		}
 		ImGui::Separator();
 
+		// button to reset all of the imgui changable variables to default
 		if (ImGui::Button("Reset to Default")) 
 		{
 			fireAudio.setVolume(50.0f);
@@ -183,17 +192,17 @@ int main()
 
 		ImGui::End();
 
-		//update visual cirlces
+		// update visual cirlces
 		float minDist = fireAudio.getMinDistance();
 		float atten = fireAudio.getAttenuation();
 		float threshold = 0.01f;
 
-		//updated minDistance visual (red circle)
+		// updated minDistance visual (red circle)
 		distanceVisual.setRadius(minDist);
 		distanceVisual.setOrigin({ minDist, minDist });
 		distanceVisual.setPosition(fireCenter);
 
-		//update maxDistance visual (white circle)
+		// update maxDistance visual (white circle)
 		float maxRadius = minDist;
 
 		if (atten > 0.01f) {
@@ -204,11 +213,12 @@ int main()
 			maxRadius = 10000.0f; // Infinite
 		}
 
+		// updated maxDistance visual (white circle)
 		maxDistanceVisual.setRadius(maxRadius);
 		maxDistanceVisual.setOrigin({ maxRadius, maxRadius });
 		maxDistanceVisual.setPosition(fireCenter);
 
-		//rendering
+		// rendering
 		window.clear(sf::Color(10, 10, 10));
 		window.draw(maxDistanceVisual);
 		window.draw(distanceVisual);
@@ -219,6 +229,7 @@ int main()
 		window.display();
 	}
 
+	// window close
 	fireAudio.stop();
 	ImGui::SFML::Shutdown();
 	return 0;

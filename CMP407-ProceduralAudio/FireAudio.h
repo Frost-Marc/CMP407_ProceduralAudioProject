@@ -7,7 +7,7 @@
 class FireAudio : public sf::SoundStream
 {
 public:
-    // --- ImGui Accessible Parameters ---
+    // ImGui Accessible Parameters
     float crackleProbability = 0.0001f;
     float crackleFilterFreq = 3500.0f;
     float hissGain = 0.05f;
@@ -40,13 +40,14 @@ private:
 	unsigned int m_sampleRate;
     std::vector<std::int16_t> m_processingBuffer;
 
-    // DSP States
+    // DSP STATES
     DSP::HighPass  m_hissFilter;
     DSP::HighPass  m_crackleFilter;
     DSP::LowPass   m_roarFilter;
     DSP::LFO       m_lappingLFO;
     DSP::PinkNoise m_pink;
 
+    // SMOOTHING STATES
     DSP::Smoother sCrackleFreq;
     DSP::Smoother sHissGain;
     DSP::Smoother sHissFreq;
@@ -69,18 +70,14 @@ private:
             sRoarFreq.target = roarFilterFreq;
             sLappingSpeed.target = lappingSpeed;
 
-            // 1. THE HISS (High-frequency gas sound)
+            // THE HISS (High-frequency gas sound)
             float hiss = m_hissFilter.process(DSP::WhiteNoise(), sHissFreq.next(), sRateF);
 
-            // 2. THE CRACKLE (Sharp wood snapping)
+            // THE CRACKLE (Sharp wood snapping)
             float crackleImpulse = DSP::Chance(crackleProbability) ? (DSP::WhiteNoise() * 0.8f) : 0.0f;
-            /*if (DSP::Chance(crackleProbability))
-            {
-                crackleImpulse = DSP::WhiteNoise() * 0.8f;
-            }*/
             float crackle = m_crackleFilter.process(crackleImpulse, sCrackleFreq.next(), sRateF);
 
-            // 3. THE ROAR (The body of the flame with LFO "breathing")
+            // THE ROAR (The body of the flame with LFO "breathing")
             float lfoValue = m_lappingLFO.process(sLappingSpeed.next(), dt);
             float roar = m_roarFilter.process(m_pink.Next(), sRoarFreq.next(), sRateF);
             roar *= (0.5f + (lfoValue * 0.5f));
